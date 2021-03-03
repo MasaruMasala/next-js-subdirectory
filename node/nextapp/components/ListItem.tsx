@@ -3,12 +3,16 @@ import Link from 'next/link'
 
 import { User } from '../interfaces'
 
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const basepath = publicRuntimeConfig.basePath || "";
+
 type Props = {
   data: User
 }
 
 const ListItem = ({ data }: Props) => (
-  <Link href="/users/[id]" as={`/users/${data.id}`}>
+  <Link href={`/users/id?id=${data.id}`} as={`${basepath}/users/${data.id}`}>
     <a>
       {data.id}: {data.name}
     </a>

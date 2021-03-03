@@ -6,6 +6,10 @@ import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../components/Layout'
 import List from '../../components/List'
 
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+const basepath = publicRuntimeConfig.basePath || "";
+
 type Props = {
   items: User[]
 }
@@ -19,7 +23,7 @@ const WithStaticProps = ({ items }: Props) => (
     <p>You are currently on: /users</p>
     <List items={items} />
     <p>
-      <Link href="/">
+      <Link href="/" as={`${basepath}/`}>
         <a>Go home</a>
       </Link>
     </p>
