@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  # NGINX
+  nginx:
+    container_name: nginx
+    image: nginx:1.18.0
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/log:/var/log/nginx
+      - ./html:/var/www/html:ro
+    depends_on:
+      - node
+    restart: always
+  # Node.js
+  node:
+    container_name: node
+    build:
+      context: dockerfiles
+      dockerfile: Dockerfile_nodejs
+    volumes:
+      - ./node/nextapp:/src/app
+    working_dir: /src/app
+    command: >
+        /bin/sh -c 'yarn ${NEXT_APP_ENV}'
+    restart: always
+    init: true
+    tty: true
